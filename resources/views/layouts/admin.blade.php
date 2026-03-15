@@ -68,11 +68,11 @@
 </head>
 
 <body>
-
+     <!--
     <div id="global-loader">
         <div class="page-loader"></div>
     </div>
-
+    -->
     <!-- Main Wrapper -->
     <div class="main-wrapper">
 

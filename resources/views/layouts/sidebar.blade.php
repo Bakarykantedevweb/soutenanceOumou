@@ -77,23 +77,19 @@
     <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
             <ul>
-                <li class="menu-title"><span>MAIN MENU</span></li>
                 <li>
-                    <ul>
-                        <li class="submenu">
-                            <a href="javascript:void(0);" class="active subdrop">
-                                <i class="ti ti-smart-home"></i>
-                                <span>Dashboard</span>
-                                <span class="badge badge-danger fs-10 fw-medium text-white p-1">Hot</span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <ul>
-                                <li><a href="index.html" class="active">Admin Dashboard</a></li>
-                                <li><a href="employee-dashboard.html">Employee Dashboard</a></li>
-                                <li><a href="deals-dashboard.html">Deals Dashboard</a></li>
-                                <li><a href="leads-dashboard.html">Leads Dashboard</a></li>
-                            </ul>
-                        </li>
+    <a href="{{ route('home') }}">
+        <i class="ti ti-smart-home"></i>
+        <span>Dashboard</span>
+    </a>
+</li>
+
+<li>
+    <a href="{{ route('services.index') }}">
+        <i class="ti ti-building"></i>
+        <span>Services</span>
+    </a>
+</li>
                         <li class="submenu">
                             <a href="javascript:void(0);">
                                 <i class="ti ti-layout-grid-add"></i><span>Applications</span>
