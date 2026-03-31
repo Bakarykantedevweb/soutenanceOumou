@@ -10,4 +10,9 @@ class Absence extends Model
 {
     return $this->belongsTo(Employe::class);
 }
+protected $fillable = [
+    'employe_id',
+    'date_absence',
+    'motif'
+];
 }

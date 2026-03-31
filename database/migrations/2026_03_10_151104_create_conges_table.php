@@ -16,7 +16,8 @@ return new class extends Migration
     $table->foreignId('employe_id')->constrained()->onDelete('cascade');
     $table->date('date_debut');
     $table->date('date_fin');
-    $table->string('type_conge');
+    $table->string('type');
+    $table->text('motif')->nullable();
     $table->string('statut')->default('en_attente');
     $table->timestamps();
 });

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('postes', function (Blueprint $table) {
     $table->id();
-    $table->string('nom_poste');
+    $table->string('nom');
     $table->text('description')->nullable();
     $table->foreignId('service_id')->constrained()->onDelete('cascade');
     $table->timestamps();

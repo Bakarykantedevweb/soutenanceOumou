@@ -14,4 +14,9 @@ class Poste extends Model
 {
     return $this->hasMany(Employe::class);
 }
+protected $fillable = [
+    'nom',
+    'description',
+    'service_id'
+];
 }

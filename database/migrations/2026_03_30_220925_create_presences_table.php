@@ -11,13 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-       Schema::create('absences', function (Blueprint $table) {
+       Schema::create('presences', function (Blueprint $table) {
     $table->id();
+
+    // Relation avec employé
     $table->foreignId('employe_id')->constrained()->onDelete('cascade');
-    $table->date('date_absence');
-    $table->text('motif')->nullable();
+
+    // Date de présence
+    $table->date('date');
+
     $table->timestamps();
-        });
+    });
     }
 
     /**
@@ -25,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('absences');
+        Schema::dropIfExists('presences');
     }
 };

@@ -22,4 +22,13 @@ class Employe extends Model
 {
     return $this->hasMany(Absence::class);
 }
+    protected $fillable = [
+    'nom',
+    'prenom',
+    'email',
+    'telephone',
+    'service_id',
+    'poste_id',
+    'date_embauche'
+    ];
 }

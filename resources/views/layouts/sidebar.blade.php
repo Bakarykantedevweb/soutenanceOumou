@@ -90,6 +90,36 @@
         <span>Services</span>
     </a>
 </li>
+<li>
+    <a href="{{ route('postes.index') }}">
+        <i class="ti ti-building"></i>
+        <span>postes</span>
+    </a>
+</li>
+<li>
+    <a href="{{ route('employes.index') }}">
+        <i class="ti ti-users"></i>
+        <span>Employés</span>
+    </a>
+</li>
+<li>
+    <a href="{{ route('conges.index') }}">
+        <i class="ti ti-calendar"></i>
+        <span>Congés</span>
+    </a>
+</li>
+<li>
+    <a href="{{ route('absences.index') }}">
+        <i class="ti ti-alert-circle"></i>
+        <span>Absences</span>
+    </a>
+</li>
+<li>
+    <a href="{{ route('presences.index') }}">
+        <i class="ti ti-check"></i>
+        <span>Présences</span>
+    </a>
+</li>
                         <li class="submenu">
                             <a href="javascript:void(0);">
                                 <i class="ti ti-layout-grid-add"></i><span>Applications</span>
