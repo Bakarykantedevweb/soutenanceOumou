@@ -28615,3 +28615,14 @@ span.flatpickr-weekday {
 /* End:: swiper js */
 
 /*# sourceMappingURL=style.css.map */
+
+.table-hover tbody tr:hover {
+    background-color: #f5f5f5;
+}
+.card {
+    border-radius: 10px;
+}
+
+h2 {
+    font-weight: 600;
+}

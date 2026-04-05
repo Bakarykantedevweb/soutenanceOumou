@@ -22,6 +22,10 @@ class Employe extends Model
 {
     return $this->hasMany(Absence::class);
 }
+    public function presences()
+{
+    return $this->hasMany(Presence::class);
+}
     protected $fillable = [
     'nom',
     'prenom',

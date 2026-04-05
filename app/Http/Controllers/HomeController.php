@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Models\Employe;
 use App\Models\Service;
 use App\Models\Poste;
@@ -12,24 +10,23 @@ use App\Models\Conge;
 use App\Models\Presence;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-
-    public function index()
+public function index()
 {
-    // Totaux
+    // Statistiques générales
     $employes = Employe::count();
     $services = Service::count();
     $postes = Poste::count();
     $absences = Absence::count();
     $conges = Conge::count();
     $presences = Presence::count();
+
+    // Absences du mois
+    $absencesMois = Absence::whereMonth('date_absence', Carbon::now()->month)->count();
+
+    // Présences du jour
+    $presencesJour = Presence::whereDate('date', Carbon::today())->count();
 
     // Employés par service
     $employesParService = DB::table('employes')
@@ -38,13 +35,11 @@ class HomeController extends Controller
         ->groupBy('services.nom')
         ->get();
 
-    // Absences du mois
-    $absencesMois = Absence::whereMonth('date_absence', Carbon::now()->month)
-        ->count();
-
-    // Présences du jour
-    $presencesJour = Presence::whereDate('date', Carbon::today())
-        ->count();
+    // Derniers employés (limite 5)
+    $latestEmployes = Employe::with('service', 'poste')
+        ->latest()
+        ->take(5)
+        ->get();
 
     return view('home', compact(
         'employes',
@@ -53,18 +48,10 @@ class HomeController extends Controller
         'absences',
         'conges',
         'presences',
-        'employesParService',
         'absencesMois',
-        'presencesJour'
+        'presencesJour',
+        'employesParService',
+        'latestEmployes'
     ));
 }
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    }
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
+}
