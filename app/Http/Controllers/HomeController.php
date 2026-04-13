@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendance;
+use App\Models\Contract;
+use App\Models\Employee;
+use App\Models\Leave;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +27,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('admin.index');
+        return view('admin.index', [
+            'employeeCount' => Employee::count(),
+            'leaveCount' => Leave::count(),
+            'contractCount' => Contract::count(),
+            'pendingLeaves' => Leave::where('status', 'En attente')->count(),
+            'approvedLeaves' => Leave::where('status', 'Approuvé')->count(),
+            'rejectedLeaves' => Leave::where('status', 'Refusé')->count(),
+            'recentEmployees' => Employee::latest()->limit(5)->get(),
+            'recentLeaves' => Leave::with('employee')->latest()->limit(5)->get(),
+            'recentContracts' => Contract::with('employee')->latest()->limit(5)->get(),
+            'todayAttendances' => Attendance::whereDate('recorded_at', now())->count(),
+        ]);
     }
 }

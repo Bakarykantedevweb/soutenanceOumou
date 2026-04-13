@@ -3,14 +3,14 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-	<meta name="description" content="Smarthr - Bootstrap Admin Template">
-	<meta name="keywords" content="admin, estimates, bootstrap, business, html5, responsive, Projects">
-	<meta name="author" content="Dreams technologies - Bootstrap Admin Template">
+	<meta name="description" content="Application de gestion des ressources humaines pour Orange Mali.">
+	<meta name="keywords" content="Orange Mali, gestion des ressources humaines, RH, congés, employés, paie, recrutement">
+	<meta name="author" content="Orange Mali RH">
 	<meta name="robots" content="noindex, nofollow">
-	<title>Smarthr Admin Template</title>
+	<title>Orange Mali RH - Connexion</title>
 
 	<!-- Favicon -->
-	<link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/template/assets/img/logo.png') }}">
+	<link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/logo.png') }}">
 
 	<!-- Apple Touch Icon -->
 	<link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/apple-touch-icon.png') }}">
@@ -45,13 +45,8 @@
 		<div class="container-fuild">
 			<div class="w-100 overflow-hidden position-relative flex-wrap d-block vh-100">
 				<div class="row">
-					<div class="col-lg-5">
-						<div class="d-lg-flex align-items-center justify-content-center d-none flex-wrap vh-100 bg-primary-transparent">
-							<div>
-								<img src="{{ asset('assets/img/bg/authentication-bg-03.svg') }}" alt="Img">
-							</div>
-						</div>
-					</div>
+					
+				
 					<div class="col-lg-7 col-md-12 col-sm-12">
 						<div class="row justify-content-center align-items-center vh-100 overflow-auto flex-wrap ">
 							<div class="col-md-7 mx-auto vh-100">
@@ -65,7 +60,7 @@
 										<div class="">
 											<div class="text-center mb-3">
 												<h2 class="mb-2">Connexion</h2>
-												<p class="mb-0">Veuillez entrer vos informations pour vous connecter</p>
+												<p class="mb-0">Bienvenue sur le portail RH Orange Mali. Connectez-vous pour accéder à votre espace.</p>
 											</div>
 											<div class="mb-3">
 												<label for="email" class="form-label">Adresse E-mail</label>
@@ -110,13 +105,13 @@
 												<button type="submit" class="btn btn-primary w-100">Se connecter</button>
 											</div>
 											<div class="text-center">
-												<h6 class="fw-normal text-dark mb-0">Vous n'avez pas de compte ? 
-													<a href="{{ route('register') }}" class="hover-a"> Créer un compte</a>
+												<h6 class="fw-normal text-dark mb-0">Pas encore de compte ? Contactez l'administrateur RH pour obtenir un accès. 
+													
 												</h6>
 											</div>
 										</div>
 										<div class="mt-5 pb-4 text-center">
-											<p class="mb-0 text-gray-9">Bakary KANTE &copy; {{ date('Y') }} - SAN-DIA Imprim</p>
+											<p class="mb-0 text-gray-9">Orange Mali RH &copy; {{ date('Y') }}</p>
 										</div>
 									</div>
 								</form>
@@ -142,7 +137,4 @@
 	<!-- Custom JS -->
 	<script src="{{ asset('assets/js/script.js') }}"></script>
 </body>
-
-
-<!-- Mirrored from smarthr.co.in/demo/html/template/login-2 by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 11 Jan 2026 20:16:14 GMT -->
 </html>

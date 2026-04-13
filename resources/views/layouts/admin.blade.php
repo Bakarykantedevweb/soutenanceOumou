@@ -2,21 +2,18 @@
 <html lang="en">
 
 
-<!-- Mirrored from smarthr.co.in/demo/html/template/index by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 11 Jan 2026 20:12:59 GMT -->
-
 <head>
 
     <!-- Meta Tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | SmartHR - Advanced Bootstrap 5 Multipurpose Admin Dashboard Template for HRM, Payroll & CRM
-    </title>
+    <title>Orange Mali RH - Tableau de bord</title>
 
     <meta name="description"
-        content="SmartHR - An advanced Bootstrap 5 admin dashboard template for HRM and CRM. Ideal for managing employee records, payroll, attendance, recruitment, and team performance with an intuitive and responsive design. Perfect for HR teams and business managers looking to streamline workforce management.">
+        content="Application de gestion des ressources humaines Orange Mali. Gestion des employés, des congés, de la paie et des performances au sein d'une interface moderne et responsive.">
     <meta name="keywords"
-        content="HR dashboard template, HRM admin template, Bootstrap 5 HR dashboard, workforce management dashboard, employee management system, payroll dashboard, HR analytics, admin dashboard, CRM admin template, human resources management, HR admin template, team management dashboard, recruitment dashboard, employee attendance system, performance management, HR CRM, HR dashboard HTML, Bootstrap HR template, employee engagement, HR software, project management dashboard">
-    <meta name="author" content="Dreams Technologies">
+        content="Orange Mali, ressources humaines, RH, gestion du personnel, congés, paie, recrutement, performance, administration du personnel, tableau de bord RH">
+    <meta name="author" content="Orange Mali RH">
     <meta name="robots" content="index, follow">
 
     <!-- Apple Touch Icon -->
@@ -104,8 +101,8 @@
             </div>
 
             <div class="footer d-sm-flex align-items-center justify-content-between border-top bg-white p-3">
-                <p class="mb-0">{{ date('Y') }} Bakary KANTE &copy; SAN-DIA Imprim.</p>
-                <p>Designed &amp; Developed By <a href="javascript:void(0);" class="text-primary">Dreams</a></p>
+                <p class="mb-0">{{ date('Y') }} Orange Mali RH &copy; Tous droits réservés.</p>
+                <p>Développé pour Orange Mali.</p>
             </div>
 
         </div>
@@ -159,8 +156,4 @@
 
     @stack('scripts')
 </body>
-
-
-<!-- Mirrored from smarthr.co.in/demo/html/template/index by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 11 Jan 2026 20:15:32 GMT -->
-
 </html>
