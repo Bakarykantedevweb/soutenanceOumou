@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="num_contrat" class="form-label">Numéro de contrat</label>
-                    <input type="text" id="num_contrat" name="num_contrat" class="form-control @error('num_contrat') is-invalid @enderror" value="{{ old('num_contrat') }}" required>
+                    <input type="text" id="num_contrat" name="num_contrat" class="form-control @error('num_contrat') is-invalid @enderror" readonly value="{{ old('num_contrat') }}" required>
                     @error('num_contrat')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
             </div>
@@ -40,7 +40,11 @@
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="type_contrat" class="form-label">Type de contrat</label>
-                    <input type="text" id="type_contrat" name="type_contrat" class="form-control @error('type_contrat') is-invalid @enderror" value="{{ old('type_contrat') }}" required>
+                    <select type="text" id="type_contrat" name="type_contrat" class="form-control @error('type_contrat') is-invalid @enderror" value="{{ old('type_contrat') }}" required>>
+                        <option value=""> Sélectionner un contrat </option>
+                        <option value="CDD">CDD</option>
+                        <option value="CDI">CDI</option>
+                    </select> 
                     @error('type_contrat')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
                 <div class="col-md-3 mb-3">
@@ -48,7 +52,7 @@
                     <input type="date" id="date_debut" name="date_debut" class="form-control @error('date_debut') is-invalid @enderror" value="{{ old('date_debut') }}" required>
                     @error('date_debut')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
-                <div class="col-md-3 mb-3">
+                <div id="date_fin_field" class="col-md-3 mb-3">
                     <label for="date_fin" class="form-label">Date de fin</label>
                     <input type="date" id="date_fin" name="date_fin" class="form-control @error('date_fin') is-invalid @enderror" value="{{ old('date_fin') }}">
                     @error('date_fin')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -63,7 +67,11 @@
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="situation_matrimoniale" class="form-label">Situation matrimoniale</label>
-                    <input type="text" id="situation_matrimoniale" name="situation_matrimoniale" class="form-control @error('situation_matrimoniale') is-invalid @enderror" value="{{ old('situation_matrimoniale') }}" required>
+                    <select type="text" id="situation_matrimoniale" name="situation_matrimoniale" class="form-control @error('situation_matrimoniale') is-invalid @enderror" value="{{ old('situation_matrimoniale') }}" required>>
+                        <option value=""> Sélectionner </option>
+                        <option value="celibataire">Célibataire</option>
+                        <option value="marie">Marié</option>
+                    </select>  
                     @error('situation_matrimoniale')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
                 <div class="col-md-4 mb-3">
@@ -82,4 +90,62 @@
         </form>
     </div>
 </div>
+<script>
+    document.getElementById('type_contrat').addEventListener('change', function () {
+    let field = document.getElementById('date_fin_field');
+
+    if (this.value === 'CDI') {
+        field.style.display = 'none';
+    } else {
+        field.style.display = 'block';
+    }
+    });
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    let diplome = document.getElementById('diplome');
+    let salaire = document.getElementById('salaire_base');
+
+    if (diplome && salaire) {
+
+        diplome.addEventListener('change', function () {
+
+            switch(this.value) {
+                case 'Baccalauréat':
+                    salaire.value = 125000;
+                    break;
+                case 'BTS':
+                case 'DUT':
+                    salaire.value = 200000;
+                    break;
+                case 'Licence Professionnelle':
+                    salaire.value = 250000;
+                    break;
+                case 'Licence':
+                    salaire.value = 300000;
+                    break;
+                case 'Master':
+                    salaire.value = 400000;
+                    break;
+                case 'Ingénieur':
+                    salaire.value = 450000;
+                    break;
+            case 'MBA':
+                salaire.value = 500000;
+                break;
+            case 'Doctorat':
+                    salaire.value = 600000;
+                    break;
+                default:
+                    salaire.value = '';
+            }
+
+        });
+
+    }
+
+});
+</script>
+
 @endsection

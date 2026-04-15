@@ -24,7 +24,13 @@ class ContractController extends Controller
     }
 
     public function store(Request $request)
-    {
+    {   
+            if ($request->type_contrat == 'CDI') {
+        $date_fin = null;
+        } else {
+                    $date_fin = $request->date_fin;
+                }
+
         $request->validate([
             'agent_id' => 'required|exists:employees,id',
             'num_contrat' => 'required|string|max:100|unique:contracts,num_contrat',
@@ -67,6 +73,12 @@ class ContractController extends Controller
 
     public function update(Request $request, Contract $contract)
     {
+
+        if ($request->type_contrat == 'CDI') {
+            $date_fin = null;
+        } else {
+                    $date_fin = $request->date_fin;
+                }
         $request->validate([
             'agent_id' => 'required|exists:employees,id',
             'num_contrat' => 'required|string|max:100|unique:contracts,num_contrat,' . $contract->id,

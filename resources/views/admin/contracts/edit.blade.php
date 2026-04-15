@@ -41,7 +41,10 @@
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="type_contrat" class="form-label">Type de contrat</label>
-                    <input type="text" id="type_contrat" name="type_contrat" class="form-control @error('type_contrat') is-invalid @enderror" value="{{ old('type_contrat', $contract->type_contrat) }}" required>
+                    <select type="text" id="type_contrat" name="type_contrat" class="form-control @error('type_contrat') is-invalid @enderror" value="{{ old('type_contrat', $contract->type_contrat) }}" required>
+                        <option value="CDD" {{ $contrat->type_contrat == 'CDD' ? 'selected' : '' }}>CDD</option>
+                        <option value="CDI" {{ $contrat->type_contrat == 'CDI' ? 'selected' : '' }}>CDI</option>
+                    </select>
                     @error('type_contrat')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
                 <div class="col-md-3 mb-3">
@@ -49,7 +52,7 @@
                     <input type="date" id="date_debut" name="date_debut" class="form-control @error('date_debut') is-invalid @enderror" value="{{ old('date_debut', $contract->date_debut?->format('Y-m-d')) }}" required>
                     @error('date_debut')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
-                <div class="col-md-3 mb-3">
+                <div id="date_fin_field" class="col-md-3 mb-3">
                     <label for="date_fin" class="form-label">Date de fin</label>
                     <input type="date" id="date_fin" name="date_fin" class="form-control @error('date_fin') is-invalid @enderror" value="{{ old('date_fin', $contract->date_fin?->format('Y-m-d')) }}">
                     @error('date_fin')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -64,7 +67,11 @@
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="situation_matrimoniale" class="form-label">Situation matrimoniale</label>
-                    <input type="text" id="situation_matrimoniale" name="situation_matrimoniale" class="form-control @error('situation_matrimoniale') is-invalid @enderror" value="{{ old('situation_matrimoniale', $contract->situation_matrimoniale) }}" required>
+                    <select type="text" id="situation_matrimoniale" name="situation_matrimoniale" class="form-control @error('situation_matrimoniale') is-invalid @enderror" value="{{ old('situation_matrimoniale') }}" required>>
+                        <option value=""> Sélectionner </option>
+                        <option value="celibataire">Célibataire</option>
+                        <option value="marie">Marié</option>
+                    </select> 
                     @error('situation_matrimoniale')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
                 <div class="col-md-4 mb-3">
@@ -83,4 +90,14 @@
         </form>
     </div>
 </div>
+<script>
+    window.onload = function () {
+    let type = document.getElementById('type_contrat').value;
+    let field = document.getElementById('date_fin_field');
+
+    if (type === 'CDI') {
+        field.style.display = 'none';
+    }
+    };
+</script>
 @endsection
