@@ -33,7 +33,7 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="num_contrat" class="form-label">Numéro de contrat</label>
-                    <input type="text" id="num_contrat" name="num_contrat" class="form-control @error('num_contrat') is-invalid @enderror" value="{{ old('num_contrat', $contract->num_contrat) }}" required>
+                    <input type="text" id="num_contrat" name="num_contrat" class="form-control @error('num_contrat') is-invalid @enderror" value="{{ old('num_contrat', $contract->num_contrat) }}" readonly required>
                     @error('num_contrat')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
             </div>
@@ -41,9 +41,9 @@
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="type_contrat" class="form-label">Type de contrat</label>
-                    <select type="text" id="type_contrat" name="type_contrat" class="form-control @error('type_contrat') is-invalid @enderror" value="{{ old('type_contrat', $contract->type_contrat) }}" required>
-                        <option value="CDD" {{ $contrat->type_contrat == 'CDD' ? 'selected' : '' }}>CDD</option>
-                        <option value="CDI" {{ $contrat->type_contrat == 'CDI' ? 'selected' : '' }}>CDI</option>
+                    <select id="type_contrat" name="type_contrat" class="form-control @error('type_contrat') is-invalid @enderror" required>
+                        <option value="CDD" {{ old('type_contrat', $contract->type_contrat) == 'CDD' ? 'selected' : '' }}>CDD</option>
+                        <option value="CDI" {{ old('type_contrat', $contract->type_contrat) == 'CDI' ? 'selected' : '' }}>CDI</option>
                     </select>
                     @error('type_contrat')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
@@ -67,10 +67,10 @@
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="situation_matrimoniale" class="form-label">Situation matrimoniale</label>
-                    <select type="text" id="situation_matrimoniale" name="situation_matrimoniale" class="form-control @error('situation_matrimoniale') is-invalid @enderror" value="{{ old('situation_matrimoniale') }}" required>>
+                    <select id="situation_matrimoniale" name="situation_matrimoniale" class="form-control @error('situation_matrimoniale') is-invalid @enderror" required>
                         <option value=""> Sélectionner </option>
-                        <option value="celibataire">Célibataire</option>
-                        <option value="marie">Marié</option>
+                        <option value="celibataire" {{ old('situation_matrimoniale', $contract->situation_matrimoniale) == 'celibataire' ? 'selected' : '' }}>Célibataire</option>
+                        <option value="marie" {{ old('situation_matrimoniale', $contract->situation_matrimoniale) == 'marie' ? 'selected' : '' }}>Marié</option>
                     </select> 
                     @error('situation_matrimoniale')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>

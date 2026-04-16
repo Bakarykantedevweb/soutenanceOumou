@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="num_contrat" class="form-label">Numéro de contrat</label>
-                    <input type="text" id="num_contrat" name="num_contrat" class="form-control @error('num_contrat') is-invalid @enderror" readonly value="{{ old('num_contrat') }}" required>
+                    <input type="text" id="num_contrat" name="num_contrat" class="form-control @error('num_contrat') is-invalid @enderror" readonly value="{{ old('num_contrat', $num_contrat) }}" required>
                     @error('num_contrat')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
             </div>
@@ -40,11 +40,11 @@
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="type_contrat" class="form-label">Type de contrat</label>
-                    <select type="text" id="type_contrat" name="type_contrat" class="form-control @error('type_contrat') is-invalid @enderror" value="{{ old('type_contrat') }}" required>>
+                    <select id="type_contrat" name="type_contrat" class="form-control @error('type_contrat') is-invalid @enderror" required>
                         <option value=""> Sélectionner un contrat </option>
-                        <option value="CDD">CDD</option>
-                        <option value="CDI">CDI</option>
-                    </select> 
+                        <option value="CDD" {{ old('type_contrat') == 'CDD' ? 'selected' : '' }}>CDD</option>
+                        <option value="CDI" {{ old('type_contrat') == 'CDI' ? 'selected' : '' }}>CDI</option>
+                    </select>
                     @error('type_contrat')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
                 <div class="col-md-3 mb-3">
@@ -67,11 +67,11 @@
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="situation_matrimoniale" class="form-label">Situation matrimoniale</label>
-                    <select type="text" id="situation_matrimoniale" name="situation_matrimoniale" class="form-control @error('situation_matrimoniale') is-invalid @enderror" value="{{ old('situation_matrimoniale') }}" required>>
+                    <select id="situation_matrimoniale" name="situation_matrimoniale" class="form-control @error('situation_matrimoniale') is-invalid @enderror" required>
                         <option value=""> Sélectionner </option>
-                        <option value="celibataire">Célibataire</option>
-                        <option value="marie">Marié</option>
-                    </select>  
+                        <option value="celibataire" {{ old('situation_matrimoniale') == 'celibataire' ? 'selected' : '' }}>Célibataire</option>
+                        <option value="marie" {{ old('situation_matrimoniale') == 'marie' ? 'selected' : '' }}>Marié</option>
+                    </select>
                     @error('situation_matrimoniale')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
                 <div class="col-md-4 mb-3">
@@ -91,60 +91,54 @@
     </div>
 </div>
 <script>
-    document.getElementById('type_contrat').addEventListener('change', function () {
+function updateContractEndDateVisibility() {
     let field = document.getElementById('date_fin_field');
+    let type = document.getElementById('type_contrat').value;
 
-    if (this.value === 'CDI') {
+    if (type === 'CDI') {
         field.style.display = 'none';
     } else {
         field.style.display = 'block';
     }
-    });
-</script>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
+}
 
+function updateSalaryByDiploma() {
     let diplome = document.getElementById('diplome');
     let salaire = document.getElementById('salaire_base');
 
-    if (diplome && salaire) {
-
-        diplome.addEventListener('change', function () {
-
-            switch(this.value) {
-                case 'Baccalauréat':
-                    salaire.value = 125000;
-                    break;
-                case 'BTS':
-                case 'DUT':
-                    salaire.value = 200000;
-                    break;
-                case 'Licence Professionnelle':
-                    salaire.value = 250000;
-                    break;
-                case 'Licence':
-                    salaire.value = 300000;
-                    break;
-                case 'Master':
-                    salaire.value = 400000;
-                    break;
-                case 'Ingénieur':
-                    salaire.value = 450000;
-                    break;
-            case 'MBA':
-                salaire.value = 500000;
-                break;
-            case 'Doctorat':
-                    salaire.value = 600000;
-                    break;
-                default:
-                    salaire.value = '';
-            }
-
-        });
-
+    if (!diplome || !salaire) {
+        return;
     }
 
+    const mapping = {
+        'baccalauréat': 125000,
+        'bts': 200000,
+        'dut': 200000,
+        'licence professionnelle': 250000,
+        'licence': 300000,
+        'master': 400000,
+        'ingénieur': 450000,
+        'mba': 500000,
+        'doctorat': 600000,
+    };
+
+    const value = diplome.value.trim().toLowerCase();
+    salaire.value = mapping[value] ?? '';
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const typeContrat = document.getElementById('type_contrat');
+    const diplome = document.getElementById('diplome');
+
+    if (typeContrat) {
+        typeContrat.addEventListener('change', updateContractEndDateVisibility);
+        updateContractEndDateVisibility();
+    }
+
+    if (diplome) {
+        diplome.addEventListener('change', updateSalaryByDiploma);
+        updateSalaryByDiploma();
+    }
 });
 </script>
 

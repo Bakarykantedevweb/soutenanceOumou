@@ -28,6 +28,16 @@ class Contract extends Model
         'salaire_base' => 'decimal:2',
     ];
 
+    public function getSalaireAvecAugmentationAttribute(): ?float
+    {
+        if (! $this->date_debut || ! $this->salaire_base) {
+            return null;
+        }
+
+        $months = $this->date_debut->diffInMonths(now());
+        return round($this->salaire_base * pow(1.025, $months), 2);
+    }
+
     public function employee()
     {
         return $this->belongsTo(Employee::class, 'agent_id');

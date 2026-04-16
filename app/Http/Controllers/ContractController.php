@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Contract;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ContractController extends Controller
 {
@@ -19,18 +20,13 @@ class ContractController extends Controller
     {
         $employees = Employee::orderBy('last_name')->get();
         $diplomes = $this->diplomeOptions();
+        $num_contrat = $this->generateContractNumber();
 
-        return view('admin.contracts.create', compact('employees', 'diplomes'));
+        return view('admin.contracts.create', compact('employees', 'diplomes', 'num_contrat'));
     }
 
     public function store(Request $request)
-    {   
-            if ($request->type_contrat == 'CDI') {
-        $date_fin = null;
-        } else {
-                    $date_fin = $request->date_fin;
-                }
-
+    {
         $request->validate([
             'agent_id' => 'required|exists:employees,id',
             'num_contrat' => 'required|string|max:100|unique:contracts,num_contrat',
@@ -42,16 +38,21 @@ class ContractController extends Controller
             'diplome' => 'required|string|max:255',
         ]);
 
-        Contract::create($request->only([
-            'agent_id',
-            'num_contrat',
-            'type_contrat',
-            'date_debut',
-            'date_fin',
-            'salaire_base',
-            'situation_matrimoniale',
-            'diplome',
-        ]));
+        $numContrat = $request->input('num_contrat') ?: $this->generateContractNumber();
+        while (Contract::where('num_contrat', $numContrat)->exists()) {
+            $numContrat = $this->generateContractNumber();
+        }
+
+        Contract::create([
+            'agent_id' => $request->agent_id,
+            'num_contrat' => $numContrat,
+            'type_contrat' => $request->type_contrat,
+            'date_debut' => $request->date_debut,
+            'date_fin' => $request->type_contrat === 'CDI' ? null : $request->date_fin,
+            'salaire_base' => $request->salaire_base,
+            'situation_matrimoniale' => $request->situation_matrimoniale,
+            'diplome' => $request->diplome,
+        ]);
 
         return redirect()->route('contracts.index')->with('success', 'Contrat ajouté avec succès.');
     }
@@ -73,12 +74,6 @@ class ContractController extends Controller
 
     public function update(Request $request, Contract $contract)
     {
-
-        if ($request->type_contrat == 'CDI') {
-            $date_fin = null;
-        } else {
-                    $date_fin = $request->date_fin;
-                }
         $request->validate([
             'agent_id' => 'required|exists:employees,id',
             'num_contrat' => 'required|string|max:100|unique:contracts,num_contrat,' . $contract->id,
@@ -90,16 +85,16 @@ class ContractController extends Controller
             'diplome' => 'required|string|max:255',
         ]);
 
-        $contract->update($request->only([
-            'agent_id',
-            'num_contrat',
-            'type_contrat',
-            'date_debut',
-            'date_fin',
-            'salaire_base',
-            'situation_matrimoniale',
-            'diplome',
-        ]));
+        $contract->update([
+            'agent_id' => $request->agent_id,
+            'num_contrat' => $request->num_contrat,
+            'type_contrat' => $request->type_contrat,
+            'date_debut' => $request->date_debut,
+            'date_fin' => $request->type_contrat === 'CDI' ? null : $request->date_fin,
+            'salaire_base' => $request->salaire_base,
+            'situation_matrimoniale' => $request->situation_matrimoniale,
+            'diplome' => $request->diplome,
+        ]);
 
         return redirect()->route('contracts.index')->with('success', 'Contrat mis à jour avec succès.');
     }
@@ -124,5 +119,17 @@ class ContractController extends Controller
             'MBA',
             'Doctorat',
         ];
+    }
+
+    private function generateContractNumber(): string
+    {
+        $lastNumber = Contract::query()
+            ->select(DB::raw('CAST(num_contrat AS UNSIGNED) AS num'))
+            ->orderByDesc('num')
+            ->value('num');
+
+        $next = $lastNumber ? ((int) $lastNumber + 1) : 1;
+
+        return (string) $next;
     }
 }

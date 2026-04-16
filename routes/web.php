@@ -14,6 +14,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('employees', App\Http\Controllers\EmployeeController::class);
     Route::resource('leaves', App\Http\Controllers\LeaveController::class);
     Route::resource('contracts', App\Http\Controllers\ContractController::class);
+    Route::get('departments', [App\Http\Controllers\DepartmentController::class, 'index'])->name('departments.index');
     Route::resource('attendances', App\Http\Controllers\AttendanceController::class)->only(['index', 'store']);
     Route::resource('users', App\Http\Controllers\UserController::class)->only(['index']);
     Route::post('leaves/{leave}/approve', [App\Http\Controllers\LeaveController::class, 'approve'])->name('leaves.approve');

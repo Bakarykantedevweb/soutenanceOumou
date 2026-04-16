@@ -32,6 +32,7 @@
                 <p><strong>Date début :</strong> {{ optional($contract->date_debut)->format('d/m/Y') }}</p>
                 <p><strong>Date fin :</strong> {{ optional($contract->date_fin)->format('d/m/Y') ?? '—' }}</p>
                 <p><strong>Salaire de base :</strong> {{ number_format($contract->salaire_base, 0, ',', ' ') }} FCFA</p>
+                <p><strong>Salaire actuel (+2,5% / mois) :</strong> {{ optional($contract->salaire_avec_augmentation) ? number_format($contract->salaire_avec_augmentation, 0, ',', ' ') . ' FCFA' : '—' }}</p>
                 <p><strong>Situation matrimoniale :</strong> {{ $contract->situation_matrimoniale }}</p>
                 <p><strong>Diplôme :</strong> {{ $contract->diplome }}</p>
             </div>

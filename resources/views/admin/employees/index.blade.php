@@ -28,11 +28,11 @@
                     <tr>
                         <th>Nom</th>
                         <th>Email</th>
+                        <th>Matricule</th>
                         <th>Département</th>
                         <th>Poste</th>
-                        <th>Statut</th>
+                        <th>Date de naissance</th>
                         <th>Date d'embauche</th>
-                        <th>Salaire</th>
                         <th class="text-end">Actions</th>
                     </tr>
                 </thead>
@@ -41,11 +41,11 @@
                         <tr>
                             <td>{{ $employee->full_name }}</td>
                             <td>{{ $employee->email }}</td>
+                            <td>{{ $employee->matricule }}</td>
                             <td>{{ $employee->department ?? '—' }}</td>
                             <td>{{ $employee->position ?? '—' }}</td>
-                            <td>{{ $employee->status }}</td>
+                            <td>{{ optional($employee->date_naissance)->format('d/m/Y') ?? '—' }}</td>
                             <td>{{ optional($employee->hired_at)->format('d/m/Y') ?? '—' }}</td>
-                            <td>{{ $employee->salary ? number_format($employee->salary, 0, ',', ' ') . ' FCFA' : '—' }}</td>
                             <td class="text-end">
                                 <a href="{{ route('employees.show', $employee) }}" class="btn btn-sm btn-outline-secondary me-1">Détails</a>
                                 <a href="{{ route('employees.edit', $employee) }}" class="btn btn-sm btn-outline-primary me-1">Modifier</a>
@@ -58,7 +58,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="text-center">Aucun employé enregistré pour le moment.</td>
+                            <td colspan="8" class="text-center">Aucun employé enregistré pour le moment.</td>
                         </tr>
                     @endforelse
                 </tbody>

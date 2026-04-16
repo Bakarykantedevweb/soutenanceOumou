@@ -23,16 +23,16 @@
             <div class="col-md-6">
                 <h5 class="mb-3">Informations personnelles</h5>
                 <p><strong>Nom complet :</strong> {{ $employee->full_name }}</p>
+                <p><strong>Matricule :</strong> {{ $employee->matricule }}</p>
                 <p><strong>Email :</strong> {{ $employee->email }}</p>
                 <p><strong>Téléphone :</strong> {{ $employee->phone ?? '—' }}</p>
                 <p><strong>Département :</strong> {{ $employee->department ?? '—' }}</p>
                 <p><strong>Poste :</strong> {{ $employee->position ?? '—' }}</p>
             </div>
             <div class="col-md-6">
-                <h5 class="mb-3">Statut RH</h5>
-                <p><strong>Statut :</strong> {{ $employee->status }}</p>
+                <h5 class="mb-3">Informations RH</h5>
+                <p><strong>Date de naissance :</strong> {{ optional($employee->date_naissance)->format('d/m/Y') ?? '—' }}</p>
                 <p><strong>Date d'embauche :</strong> {{ optional($employee->hired_at)->format('d/m/Y') ?? '—' }}</p>
-                <p><strong>Salaire :</strong> {{ $employee->salary ? number_format($employee->salary, 0, ',', ' ') . ' FCFA' : '—' }}</p>
                 <p><strong>Congés enregistrés :</strong> {{ $employee->leaves()->count() }}</p>
             </div>
         </div>

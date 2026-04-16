@@ -12,20 +12,39 @@ class Employee extends Model
     use HasFactory;
 
     protected $fillable = [
+        'matricule',
         'first_name',
         'last_name',
         'email',
+        'date_naissance',
         'phone',
         'department',
         'position',
-        'status',
         'hired_at',
-        'salary',
     ];
 
     protected $casts = [
         'hired_at' => 'date',
+        'date_naissance' => 'date',
     ];
+
+    protected static function booted()
+    {
+        static::creating(function (self $employee) {
+            if (empty($employee->matricule)) {
+                $employee->matricule = self::generateMatricule();
+            }
+        });
+    }
+
+    public static function generateMatricule(): string
+    {
+        do {
+            $matricule = 'EMP' . now()->format('YmdHis') . mt_rand(1000, 9999);
+        } while (self::where('matricule', $matricule)->exists());
+
+        return $matricule;
+    }
 
     public function leaves()
     {

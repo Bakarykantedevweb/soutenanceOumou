@@ -48,6 +48,19 @@
 
             <div class="row">
                 <div class="col-md-4 mb-3">
+                    <label for="matricule" class="form-label">Matricule</label>
+                    <input type="text" id="matricule" name="matricule" class="form-control @error('matricule') is-invalid @enderror" value="{{ old('matricule', $employee->matricule) }}" readonly required>
+                    @error('matricule')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="date_naissance" class="form-label">Date de naissance</label>
+                    <input type="date" id="date_naissance" name="date_naissance" class="form-control @error('date_naissance') is-invalid @enderror" value="{{ old('date_naissance', optional($employee->date_naissance)->format('Y-m-d')) }}" required>
+                    @error('date_naissance')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
                     <label for="department" class="form-label">Département</label>
                     <select id="department" name="department" class="form-select @error('department') is-invalid @enderror">
                         <option value="">Sélectionner</option>
@@ -67,30 +80,15 @@
                     </select>
                     @error('position')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
-                <div class="col-md-4 mb-3">
-                    <label for="status" class="form-label">Statut</label>
-                    <select id="status" name="status" class="form-select @error('status') is-invalid @enderror" required>
-                        <option value="">Sélectionner</option>
-                        <option value="Actif" {{ old('status', $employee->status) == 'Actif' ? 'selected' : '' }}>Actif</option>
-                        <option value="En congé" {{ old('status', $employee->status) == 'En congé' ? 'selected' : '' }}>En congé</option>
-                        <option value="Inactif" {{ old('status', $employee->status) == 'Inactif' ? 'selected' : '' }}>Inactif</option>
-                    </select>
-                    @error('status')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
             </div>
 
             <div class="row">
-                <div class="col-md-4 mb-3">
+                <div class="col-md-6 mb-3">
                     <label for="hired_at" class="form-label">Date d'embauche</label>
                     <input type="date" id="hired_at" name="hired_at" class="form-control @error('hired_at') is-invalid @enderror" value="{{ old('hired_at', $employee->hired_at?->format('Y-m-d')) }}" required>
                     @error('hired_at')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
-                <div class="col-md-4 mb-3">
-                    <label for="salary" class="form-label">Salaire</label>
-                    <input type="number" step="0.01" id="salary" name="salary" class="form-control @error('salary') is-invalid @enderror" value="{{ old('salary', $employee->salary) }}">
-                    @error('salary')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
-                <div class="col-md-4 mb-3 d-flex align-items-end">
+                <div class="col-md-6 mb-3 d-flex align-items-end">
                     <button type="submit" class="btn btn-success w-100">Mettre à jour</button>
                 </div>
             </div>
