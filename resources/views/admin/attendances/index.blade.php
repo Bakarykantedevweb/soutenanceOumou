@@ -4,88 +4,68 @@
 <div class="page-header">
     <div class="row align-items-center">
         <div class="col">
-            <h3 class="page-title">Pointage des employés</h3>
+            <h3 class="page-title">Registre des Présences</h3>
             <ul class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('home') }}">Tableau de bord</a></li>
-                <li class="breadcrumb-item active">Pointage</li>
+                <li class="breadcrumb-item active">Présences</li>
             </ul>
+        </div>
+        <div class="col-auto float-end ms-auto">
+            <a href="{{ route('attendances.kiosk') }}" target="_blank" class="btn btn-primary">
+                <i class="ti ti-device-display"></i> Ouvrir le Kiosque de Pointage
+            </a>
         </div>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-lg-5">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Enregistrer un pointage</h5>
-                <form action="{{ route('attendances.store') }}" method="POST">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="employee_id" class="form-label">Employé</label>
-                        <select id="employee_id" name="employee_id" class="form-select @error('employee_id') is-invalid @enderror" required>
-                            <option value="">Sélectionner un employé</option>
-                            @foreach($employees as $employee)
-                                <option value="{{ $employee->id }}" {{ old('employee_id') == $employee->id ? 'selected' : '' }}>{{ $employee->full_name }} - {{ $employee->position ?? 'N/A' }}</option>
-                            @endforeach
-                        </select>
-                        @error('employee_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                    </div>
-                    <div class="mb-3">
-                        <label for="type" class="form-label">Type de pointage</label>
-                        <select id="type" name="type" class="form-select @error('type') is-invalid @enderror" required>
-                            <option value="">Sélectionner</option>
-                            <option value="in" {{ old('type') == 'in' ? 'selected' : '' }}>Arrivée</option>
-                            <option value="out" {{ old('type') == 'out' ? 'selected' : '' }}>Départ</option>
-                        </select>
-                        @error('type')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                    </div>
-                    <div class="mb-3">
-                        <label for="note" class="form-label">Note (optionnel)</label>
-                        <input type="text" id="note" name="note" class="form-control @error('note') is-invalid @enderror" value="{{ old('note') }}">
-                        @error('note')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                    </div>
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
-                </form>
-            </div>
-        </div>
+@if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
+@endif
 
-    <div class="col-lg-7">
-        <div class="card">
-            <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="mb-0">Derniers pointages</h5>
-            </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0">
-                        <thead>
-                            <tr>
-                                <th>Employé</th>
-                                <th>Type</th>
-                                <th>Date / heure</th>
-                                <th>Note</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($attendances as $attendance)
-                                <tr>
-                                    <td>{{ $attendance->employee?->full_name ?? '—' }}</td>
-                                    <td>{{ $attendance->type === 'in' ? 'Arrivée' : 'Départ' }}</td>
-                                    <td>{{ $attendance->recorded_at->format('d/m/Y H:i') }}</td>
-                                    <td>{{ $attendance->note ?? '—' }}</td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="4" class="text-center py-3">Aucun pointage enregistré.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-                <div class="p-3">
-                    {{ $attendances->links() }}
-                </div>
-            </div>
+<div class="card shadow-sm border-0">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Employé</th>
+                        <th>Matricule</th>
+                        <th>Arrivée</th>
+                        <th>Départ</th>
+                        <th>Statut</th>
+                        <th>Note</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($attendances as $attendance)
+                    <tr>
+                        <td>{{ $attendance->date->format('d/m/Y') }}</td>
+                        <td>{{ $attendance->employee->full_name }}</td>
+                        <td><span class="badge bg-secondary">{{ $attendance->employee->matricule }}</span></td>
+                        <td><span class="text-success fw-bold">{{ $attendance->check_in ? \Carbon\Carbon::parse($attendance->check_in)->format('H:i') : '--:--' }}</span></td>
+                        <td><span class="text-danger fw-bold">{{ $attendance->check_out ? \Carbon\Carbon::parse($attendance->check_out)->format('H:i') : '--:--' }}</span></td>
+                        <td>
+                            @if($attendance->status == 'Present')
+                                <span class="badge bg-success">Présent</span>
+                            @elseif($attendance->status == 'Late')
+                                <span class="badge bg-warning text-dark">En retard</span>
+                            @else
+                                <span class="badge bg-danger">{{ $attendance->status }}</span>
+                            @endif
+                        </td>
+                        <td>{{ $attendance->note ?? '-' }}</td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="7" class="text-center py-4">Aucun pointage enregistré pour le moment.</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

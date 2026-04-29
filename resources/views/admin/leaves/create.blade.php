@@ -22,12 +22,17 @@
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="employee_id" class="form-label">Employé</label>
-                    <select id="employee_id" name="employee_id" class="form-select @error('employee_id') is-invalid @enderror" required>
-                        <option value="">Sélectionner un employé</option>
-                        @foreach($employees as $employee)
-                            <option value="{{ $employee->id }}" {{ old('employee_id') == $employee->id ? 'selected' : '' }}>{{ $employee->full_name }} ({{ $employee->email }})</option>
-                        @endforeach
-                    </select>
+                    @if(Auth::user()->isAdmin())
+                        <select id="employee_id" name="employee_id" class="form-select @error('employee_id') is-invalid @enderror" required>
+                            <option value="">Sélectionner un employé</option>
+                            @foreach($employees as $employee)
+                                <option value="{{ $employee->id }}" {{ old('employee_id') == $employee->id ? 'selected' : '' }}>{{ $employee->full_name }} ({{ $employee->email }})</option>
+                            @endforeach
+                        </select>
+                    @else
+                        <input type="text" class="form-control" value="{{ Auth::user()->name }}" readonly>
+                        <input type="hidden" name="employee_id" value="{{ Auth::user()->employee_id }}">
+                    @endif
                     @error('employee_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
                 <div class="col-md-6 mb-3">
@@ -56,12 +61,16 @@
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="status" class="form-label">Statut</label>
-                    <select id="status" name="status" class="form-select @error('status') is-invalid @enderror" required>
-                        <option value="">Sélectionner</option>
-                        <option value="En attente" {{ old('status') == 'En attente' ? 'selected' : '' }}>En attente</option>
-                        <option value="Approuvé" {{ old('status') == 'Approuvé' ? 'selected' : '' }}>Approuvé</option>
-                        <option value="Refusé" {{ old('status') == 'Refusé' ? 'selected' : '' }}>Refusé</option>
-                    </select>
+                    @if(Auth::user()->isAdmin())
+                        <select id="status" name="status" class="form-select @error('status') is-invalid @enderror" required>
+                            <option value="En attente" {{ old('status') == 'En attente' ? 'selected' : '' }}>En attente</option>
+                            <option value="Approuvé" {{ old('status') == 'Approuvé' ? 'selected' : '' }}>Approuvé</option>
+                            <option value="Refusé" {{ old('status') == 'Refusé' ? 'selected' : '' }}>Refusé</option>
+                        </select>
+                    @else
+                        <input type="text" class="form-control" value="En attente" readonly>
+                        <input type="hidden" name="status" value="En attente">
+                    @endif
                     @error('status')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
             </div>

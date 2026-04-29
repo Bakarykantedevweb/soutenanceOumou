@@ -61,6 +61,11 @@ class Employee extends Model
         return $this->hasMany(Attendance::class);
     }
 
+    public function user()
+    {
+        return $this->hasOne(User::class);
+    }
+
     public function getFullNameAttribute(): string
     {
         return trim("{$this->first_name} {$this->last_name}");

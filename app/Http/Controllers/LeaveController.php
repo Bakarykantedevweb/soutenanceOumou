@@ -11,39 +11,47 @@ class LeaveController extends Controller
 {
     public function index()
     {
-        $leaves = Leave::with('employee')->latest()->paginate(12);
+        if (Auth::user()->isAdmin()) {
+            $leaves = Leave::with('employee')->latest()->paginate(12);
+        } else {
+            $leaves = Leave::where('employee_id', Auth::user()->employee_id)->latest()->paginate(12);
+        }
 
         return view('admin.leaves.index', compact('leaves'));
     }
 
     public function create()
     {
-        $employees = Employee::orderBy('last_name')->get();
+        if (Auth::user()->isAdmin()) {
+            $employees = Employee::orderBy('last_name')->get();
+        } else {
+            $employees = Employee::where('id', Auth::user()->employee_id)->get();
+        }
 
         return view('admin.leaves.create', compact('employees'));
     }
 
     public function store(Request $request)
     {
+        $employee_id = Auth::user()->isAdmin() ? $request->employee_id : Auth::user()->employee_id;
+
         $request->validate([
-            'employee_id' => 'required|exists:employees,id',
             'type' => 'required|string|max:80',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
-            'status' => 'required|string|max:50',
             'reason' => 'nullable|string|max:1000',
         ]);
 
-        Leave::create($request->only([
-            'employee_id',
-            'type',
-            'start_date',
-            'end_date',
-            'status',
-            'reason',
-        ]));
+        Leave::create([
+            'employee_id' => $employee_id,
+            'type' => $request->type,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'status' => 'En attente',
+            'reason' => $request->reason,
+        ]);
 
-        return redirect()->route('leaves.index')->with('success', 'Demande de congé enregistrée.');
+        return redirect()->route('leaves.index')->with('success', 'Votre demande de congé a été enregistrée et est en attente de validation.');
     }
 
     public function edit(Leave $leave)

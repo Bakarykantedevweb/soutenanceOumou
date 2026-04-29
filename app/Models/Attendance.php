@@ -11,13 +11,15 @@ class Attendance extends Model
 
     protected $fillable = [
         'employee_id',
-        'type',
-        'recorded_at',
+        'date',
+        'check_in',
+        'check_out',
+        'status',
         'note',
     ];
 
     protected $casts = [
-        'recorded_at' => 'datetime',
+        'date' => 'date',
     ];
 
     public function employee()

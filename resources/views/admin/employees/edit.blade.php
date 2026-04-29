@@ -82,14 +82,35 @@
                 </div>
             </div>
 
+            <hr class="my-4">
+            <h5 class="mb-3 text-primary"><i class="ti ti-lock me-1"></i> Compte Utilisateur</h5>
             <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="role" class="form-label">Rôle d'accès</label>
+                    <select id="role" name="role" class="form-select @error('role') is-invalid @enderror">
+                        <option value="">Pas de compte utilisateur</option>
+                        <option value="user" {{ old('role', optional($employee->user)->role) == 'user' ? 'selected' : '' }}>Employé (Accès limité)</option>
+                        <option value="admin" {{ old('role', optional($employee->user)->role) == 'admin' ? 'selected' : '' }}>Administrateur (Accès total)</option>
+                    </select>
+                    <small class="text-muted">L'employé pourra se connecter avec son email.</small>
+                    @error('role')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="password" class="form-label">Nouveau mot de passe (optionnel)</label>
+                    <input type="password" id="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Laissez vide pour ne pas changer">
+                    <small class="text-muted">Par défaut : password</small>
+                    @error('password')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                </div>
+            </div>
+
+            <div class="row mt-3">
                 <div class="col-md-6 mb-3">
                     <label for="hired_at" class="form-label">Date d'embauche</label>
                     <input type="date" id="hired_at" name="hired_at" class="form-control @error('hired_at') is-invalid @enderror" value="{{ old('hired_at', $employee->hired_at?->format('Y-m-d')) }}" required>
                     @error('hired_at')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
                 <div class="col-md-6 mb-3 d-flex align-items-end">
-                    <button type="submit" class="btn btn-success w-100">Mettre à jour</button>
+                    <button type="submit" class="btn btn-success w-100">Mettre à jour l'employé et les accès</button>
                 </div>
             </div>
         </form>
