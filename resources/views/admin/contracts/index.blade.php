@@ -39,25 +39,36 @@
                 </thead>
                 <tbody>
                     @forelse($contracts as $contract)
-                        <tr>
-                            <td>{{ $contract->agent_id }}</td>
-                            <td>{{ $contract->employee?->full_name ?? '—' }}</td>
-                            <td>{{ $contract->num_contrat }}</td>
-                            <td>{{ $contract->type_contrat }}</td>
-                            <td>{{ optional($contract->date_debut)->format('d/m/Y') }}</td>
-                            <td>{{ optional($contract->date_fin)->format('d/m/Y') ?? '—' }}</td>
-                            <td>{{ number_format($contract->salaire_base, 0, ',', ' ') }} FCFA</td>
-                            <td>{{ $contract->situation_matrimoniale }}</td>
-                            <td>{{ $contract->diplome }}</td>
-                            <td class="text-end">
-                                <a href="{{ route('contracts.show', $contract) }}" class="btn btn-sm btn-outline-secondary me-1">Détails</a>
-                                <a href="{{ route('contracts.edit', $contract) }}" class="btn btn-sm btn-outline-primary me-1">Modifier</a>
-                                <form action="{{ route('contracts.destroy', $contract) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Supprimer ce contrat ?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
-                                </form>
-                            </td>
+                            @php
+                                $alerteFin = false;
+                                if ($contract->type_contrat === 'CDD' && $contract->date_fin) {
+                                    $joursRestants = now()->diffInDays($contract->date_fin, false);
+                                    $alerteFin = $joursRestants >= 0 && $joursRestants <= 30;
+                                }
+                            @endphp
+                            <tr @if($alerteFin) style="background-color: #fff3cd;" @endif>
+                                <td>{{ $contract->agent_id }}</td>
+                                <td>{{ $contract->employee?->full_name ?? '—' }}</td>
+                                <td>{{ $contract->num_contrat }}</td>
+                                <td>{{ $contract->type_contrat }}</td>
+                                <td>{{ optional($contract->date_debut)->format('d/m/Y') }}</td>
+                                <td>{{ optional($contract->date_fin)->format('d/m/Y') ?? '—' }}
+                                    @if($alerteFin)
+                                        <span class="badge bg-warning text-dark ms-2">Fin dans {{ $joursRestants }} jours</span>
+                                    @endif
+                                </td>
+                                <td>{{ number_format($contract->salaire_base, 0, ',', ' ') }} FCFA</td>
+                                <td>{{ $contract->situation_matrimoniale }}</td>
+                                <td>{{ $contract->diplome }}</td>
+                                <td class="text-end">
+                                    <a href="{{ route('contracts.show', $contract) }}" class="btn btn-sm btn-outline-secondary me-1">Détails</a>
+                                    <a href="{{ route('contracts.edit', $contract) }}" class="btn btn-sm btn-outline-primary me-1">Modifier</a>
+                                    <form action="{{ route('contracts.destroy', $contract) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Supprimer ce contrat ?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Supprimer</button>
+                                    </form>
+                                </td>
                         </tr>
                     @empty
                         <tr>

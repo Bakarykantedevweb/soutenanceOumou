@@ -38,6 +38,11 @@ class HomeController extends Controller
             'recentLeaves' => Leave::with('employee')->latest()->limit(5)->get(),
             'recentContracts' => Contract::with('employee')->latest()->limit(5)->get(),
             'todayAttendances' => Attendance::whereDate('recorded_at', now())->count(),
+            'expiringContracts' => Contract::with('employee')
+                ->whereNotNull('date_fin')
+                ->whereBetween('date_fin', [now(), now()->addDays(30)])
+                ->orderBy('date_fin')
+                ->get(),
         ]);
     }
 }

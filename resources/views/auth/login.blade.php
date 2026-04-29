@@ -117,6 +117,10 @@
 								</form>
 							</div>
 
+							<div class="col-lg-5 col-md-12 d-none d-lg-flex align-items-center justify-content-center bg-light vh-100">
+    <img src="{{ asset('assets/img/login-image.svg') }}" alt="Illustration Connexion" class="img-fluid p-5" style="max-width: 400px;">
+</div>
+
 						</div>
 					</div>
 				</div>

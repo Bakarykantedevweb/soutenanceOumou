@@ -633,3 +633,59 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('assets/js/chartjs/Chart.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/js/chartjs/Chart.js') }}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const ctx = document.getElementById('mySemiDonutChart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Ongoing', 'On Hold', 'Overdue', 'Ongoing'],
+                    datasets: [{
+                        data: [24, 10, 16, 40],
+                        backgroundColor: ['#f4f4f4', '#f4f4f4', '#f4f4f4', '#f4f4f4'],
+                        borderColor: ['#f4f4f4', '#f4f4f4', '#f4f4f4', '#f4f4f4'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                        },
+                    },
+                    cutout: '60%',
+                    animation: {
+                        duration: 1000,
+                        easing: 'easeInOut',
+                    }
+                }
+            });
+        });
+    </script>
+@endpush
+
+@push('styles')
+    <style>
+        .avatar-list-stacked {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .avatar-group-sm {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 0.5rem;
+        }
+    </style>
+@endpush
