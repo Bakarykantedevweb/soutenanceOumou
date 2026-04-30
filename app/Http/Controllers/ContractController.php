@@ -64,6 +64,14 @@ class ContractController extends Controller
         return view('admin.contracts.show', compact('contract'));
     }
 
+    public function showPdf(Contract $contract)
+    {
+        $contract->load('employee');
+        $employee = $contract->employee;
+
+        return view('admin.contracts.show_pdf', compact('contract', 'employee'));
+    }
+
     public function edit(Contract $contract)
     {
         $employees = Employee::orderBy('last_name')->get();

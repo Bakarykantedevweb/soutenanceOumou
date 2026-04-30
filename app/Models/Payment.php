@@ -2,24 +2,25 @@
 
 namespace App\Models;
 
+use App\Models\Employee;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Attendance extends Model
+class Payment extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'employee_id',
-        'date',
-        'check_in',
-        'check_out',
+        'libelle',
+        'montant',
+        'date_paiement',
         'status',
-        'note',
+        'description',
     ];
 
     protected $casts = [
-        'date' => 'date',
+        'date_paiement' => 'date',
     ];
 
     public function employee()

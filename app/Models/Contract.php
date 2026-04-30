@@ -28,6 +28,24 @@ class Contract extends Model
         'salaire_base' => 'decimal:2',
     ];
 
+    protected static function booted()
+    {
+        static::creating(function (self $contract) {
+            if (empty($contract->num_contrat)) {
+                $contract->num_contrat = self::generateContractNumber();
+            }
+        });
+    }
+
+    public static function generateContractNumber(): string
+    {
+        do {
+            $number = 'CNT-' . now()->format('Ymd') . '-' . mt_rand(100, 999);
+        } while (self::where('num_contrat', $number)->exists());
+
+        return $number;
+    }
+
     public function getSalaireAvecAugmentationAttribute(): ?float
     {
         if (! $this->date_debut || ! $this->salaire_base) {
